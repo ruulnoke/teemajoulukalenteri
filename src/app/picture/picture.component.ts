@@ -17,7 +17,7 @@ export class PictureComponent implements OnInit {
   // picture!: Picture;
   response!: Response;
   records: Record[] = [];
-  imageUrl: string = '';
+  imageUrls: string[] = [];
 
   constructor(private pictureService: PictureService) {}
 
@@ -29,7 +29,10 @@ export class PictureComponent implements OnInit {
     // tilataan (subscribe) observable -> otetaan vastaan observablen välittämä tieto
     this.pictureService.getPicture().subscribe((response) => {
       this.response = response;
-      this.imageUrl = `https://www.finna.fi${response.records[0].images[0]}`;
+      console.log(this.response);
+      this.imageUrls.push(
+        `https://www.finna.fi${response.records[0].images[0]}`
+      );
     });
   }
 }
