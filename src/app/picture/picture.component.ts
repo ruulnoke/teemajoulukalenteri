@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { PictureService } from '../picture.service';
-// import { Picture } from '../picture';
 import { Response } from '../response';
 import { Record } from '../record';
 import { NgOptimizedImage } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-picture',
   standalone: true,
-  imports: [NgOptimizedImage, NgIf, NgFor],
+  imports: [NgOptimizedImage, NgFor, MatCardModule],
   templateUrl: './picture.component.html',
   styleUrl: './picture.component.css',
 })
@@ -17,7 +17,6 @@ export class PictureComponent implements OnInit {
   // picture!: Picture;
   response!: Response;
   records: Record[] = [];
-  imageUrls: string[] = [];
 
   constructor(private pictureService: PictureService) {}
 
