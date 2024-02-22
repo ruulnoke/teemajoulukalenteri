@@ -1,3 +1,3 @@
-<div *ngFor="let imageUrl of imageUrls">
-  <img alt="kuva" [src]="imageUrl" />
+<div *ngFor="let record of response.records">
+  <img src="https://www.finna.fi{{record.images[0]}}" />
 </div>
