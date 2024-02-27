@@ -1,0 +1,10 @@
+<app-search (searchEventEmitter)="getPicture($event)"></app-search>
+
+<div class="calendar-grid">
+
+  <button *ngFor="let record of response?.records, let i = index">
+    <app-door image="https://www.finna.fi{{record.images[0]}}" number="1" status="closed"
+      (click)="openDoor(i)"></app-door>
+  </button>
+
+</div>
