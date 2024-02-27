@@ -38,7 +38,5 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  openDoor(index: number) {
-    this.records[index];
-  }
+  openDoor(index: number) {}
 }

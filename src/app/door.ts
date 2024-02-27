@@ -2,6 +2,6 @@
 
 export interface Door {
   status: 'open' | 'closed';
-  number: number;
+  number: string;
   image: string;
 }
