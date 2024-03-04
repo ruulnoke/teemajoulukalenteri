@@ -7,6 +7,8 @@ import { DoorComponent } from '../door/door.component';
 import { NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { SearchComponent } from '../search/search.component';
+import { Door } from '../door';
+import { LocalStorageService } from '../local-storage.service';
 
 @Component({
   selector: 'app-calendar',
@@ -22,21 +24,62 @@ import { SearchComponent } from '../search/search.component';
   styleUrl: './calendar.component.css',
 })
 export class CalendarComponent implements OnInit {
-  response!: Response;
-  records: Record[] = [];
+  doors: Door[] = [];
 
-  constructor(private pictureService: PictureService) {}
+  constructor(
+    private pictureService: PictureService,
+    private localStorageService: LocalStorageService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('haetaan storagesta');
+    this.doors = this.localStorageService.getDoors();
+  }
 
   getPicture(searchTerm: string): void {
     // tilataan (subscribe) observable -> otetaan vastaan observablen välittämä tieto
-    this.pictureService.getPicture(searchTerm).subscribe((response) => {
-      this.response = response;
-      // testausta varten
-      console.log(this.response);
-    });
+    this.pictureService
+      .getPicture(searchTerm)
+      .subscribe((response: Response) => {
+        if (response.resultcount === 24) {
+          // testausta varten
+          console.log(response);
+          let imageRecords: Record[] = [];
+          let number = 0;
+          this.doors = [];
+          for (let record of response.records) {
+            number = number + 1;
+            imageRecords.push(record);
+            this.doors.push({
+              status: 'closed',
+              number: number.toString(),
+              image: `https://www.finna.fi${record.images[0]}`,
+            } as Door);
+          }
+          // sekoitetaan luukut
+          this.doors = this.shuffleArray(this.doors);
+          console.log('sijoitetaan kalenteriin');
+          // tallennetaan storageen
+          this.localStorageService.saveDoors(this.doors);
+        } else {
+          console.log('ei tarpeeksi tuloksia');
+        }
+      });
   }
 
-  openDoor(index: number) {}
+  // luukun avaaminen
+  openDoor(index: number): void {
+    console.log('luukku avataan');
+    // klikatun luukun statukseksi vaihtuu open
+    this.doors[index].status = 'open';
+    this.localStorageService.saveDoors(this.doors);
+  }
+
+  // taulukon sekoitus
+  shuffleArray(anArray: any[]): any[] {
+    return anArray
+      .map((a) => [Math.random(), a])
+      .sort((a, b) => a[0] - b[0])
+      .map((a) => a[1]);
+  }
 }

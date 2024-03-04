@@ -10,6 +10,8 @@ import { Door } from '../door';
   styleUrl: './door.component.css',
 })
 export class DoorComponent {
+  door!: Door;
+
   @Input() status!: string;
   @Input() number!: string;
   @Input() image!: string;

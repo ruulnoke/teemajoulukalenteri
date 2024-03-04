@@ -2,9 +2,24 @@
 
 <div class="calendar-grid">
 
+  <!--
   <button *ngFor="let record of response?.records, let i = index">
     <app-door image="https://www.finna.fi{{record.images[0]}}" number="{{i+1}}" status="closed"
       (click)="openDoor(i)"></app-door>
-  </button>
+  </button>-->
+
+  <!--
+  <div *ngFor="let door of doors, let i = index">
+    <app-door number="{{i+1}}" image="https://www.finna.fi{{imageRecords[i].images[0]}}" status="closed"
+      (click)="openDoor(i)"></app-door>
+  </div>-->
+
+  <!--
+  <app-door *ngFor="let door of doors, let i = index" [number]="(i+1).toString()"
+    image="https://www.finna.fi{{imageRecords[i].images[0]}}" [status]="door.status" (click)="openDoor(i)"></app-door>-->
+
+  <app-door *ngFor="let door of doors, let i = index" [number]="door.number" [image]="door.image" [status]="door.status"
+    (click)="openDoor(i)"></app-door>
+
 
 </div>

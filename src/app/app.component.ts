@@ -12,5 +12,5 @@ import { SearchComponent } from './search/search.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'joulukalenteri';
+  title = 'Joulukalenteri';
 }

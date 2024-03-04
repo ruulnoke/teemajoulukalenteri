@@ -26,6 +26,7 @@ export class SearchComponent {
   @Output() searchEventEmitter = new EventEmitter<string>();
 
   submitSearch(searchValue: string) {
+    console.log('haku aloitettu');
     this.searchEventEmitter.emit(searchValue);
   }
 }
