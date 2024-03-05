@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Door } from '../door';
 
 @Component({
   selector: 'app-door',
@@ -10,8 +9,6 @@ import { Door } from '../door';
   styleUrl: './door.component.css',
 })
 export class DoorComponent {
-  door!: Door;
-
   @Input() status!: string;
   @Input() number!: string;
   @Input() image!: string;

@@ -6,7 +6,7 @@ import { Door } from './door';
 @Injectable({
   providedIn: 'root',
 })
-export class LocalStorageService {
+export class DoorStorageService {
   constructor() {}
 
   // tallennetaan doors-taulukko selaimen muistiin

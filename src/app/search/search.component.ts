@@ -19,14 +19,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './search.component.css',
 })
 export class SearchComponent {
-  value?: string = '';
-
   constructor() {}
 
   @Output() searchEventEmitter = new EventEmitter<string>();
 
   submitSearch(searchValue: string) {
-    console.log('haku aloitettu');
+    console.log('haku aloitettu'); // testausta varten
     this.searchEventEmitter.emit(searchValue);
   }
 }

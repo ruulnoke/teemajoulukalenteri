@@ -1,5 +1,13 @@
+<!--haku-->
 <app-search (searchEventEmitter)="getPicture($event)"></app-search>
 
+
+<!--modaali-->
+<ng-template cdkPortal>
+  <app-door-details [door]="selectedDoor"></app-door-details>
+</ng-template>
+
+<!--kalenteri-->
 <div class="calendar-grid">
 
   <!--
@@ -18,8 +26,12 @@
   <app-door *ngFor="let door of doors, let i = index" [number]="(i+1).toString()"
     image="https://www.finna.fi{{imageRecords[i].images[0]}}" [status]="door.status" (click)="openDoor(i)"></app-door>-->
 
-  <app-door *ngFor="let door of doors, let i = index" [number]="door.number" [image]="door.image" [status]="door.status"
-    (click)="openDoor(i)"></app-door>
+  <!--
+  <app-door *ngFor="let door of doors, let i = index" [number]="door.number" [image]="door.image" [status]="door.status" [class.selected]="door === selectedDoor"
+    (click)="openDoor(i)"></app-door>-->
+
+  <app-door *ngFor="let door of doors" [number]="door.number" [image]="door.image" [status]="door.status"
+    [class.selected]="door === selectedDoor" (click)="openDoor(door)"></app-door>
 
 
 </div>

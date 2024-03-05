@@ -2,7 +2,7 @@
 import { Record } from './record';
 
 export interface Response {
-  resultcount: number;
+  resultCount: number;
   records: Record[];
   status: string;
 }
