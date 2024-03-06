@@ -40,27 +40,11 @@ export class CalendarComponent implements OnInit {
   constructor(
     private pictureService: PictureService,
     private doorStorageService: DoorStorageService,
-    private overlay: Overlay //EXAMPLE 2
+    private overlay: Overlay
   ) {}
 
-  // EXAMPLE 2
-  openModal() {
-    const config = new OverlayConfig({
-      positionStrategy: this.overlay
-        .position()
-        .global()
-        .centerVertically()
-        .centerHorizontally(),
-      width: '60%',
-      hasBackdrop: true,
-    });
-    const overlayRef = this.overlay.create(config);
-    overlayRef.attach(this.portal);
-    overlayRef.backdropClick().subscribe(() => overlayRef.detach());
-  }
-
   ngOnInit(): void {
-    console.log('haetaan storagesta');
+    console.log('haetaan storagesta'); // testausta varten
     this.doors = this.doorStorageService.getDoors();
   }
 
@@ -70,8 +54,7 @@ export class CalendarComponent implements OnInit {
       .getPicture(searchTerm)
       .subscribe((response: Response) => {
         if (response.resultCount >= 24) {
-          // testausta varten
-          console.log(response);
+          console.log(response); // testausta varten
           // alustetaan muuttujat
           let number = 0;
           this.doors = [];
@@ -84,34 +67,28 @@ export class CalendarComponent implements OnInit {
               image: `https://www.finna.fi${record.images[0]}`,
               title: record.title,
               year: record.year,
+              organization: record.buildings[0].translated,
+              collection: record.buildings[1]
+                ? record.buildings[1].translated
+                : '',
+              authorName: record.nonPresenterAuthors[0]
+                ? record.nonPresenterAuthors[0].name
+                : '',
+              authorRole: record.nonPresenterAuthors[0]
+                ? record.nonPresenterAuthors[0].role
+                : '',
             } as Door);
           }
           // sekoitetaan luukut
           this.doors = this.shuffleArray(this.doors);
-          console.log('sijoitetaan kalenteriin');
-          // tallennetaan storageen
+          console.log('sijoitetaan kalenteriin'); // testausta varten
+          // tallennetaan selaimen muistiin
           this.doorStorageService.saveDoors(this.doors);
         } else {
           console.log('ei tarpeeksi tuloksia');
         }
       });
   }
-
-  /*
-  // luukun avaaminen
-  openDoor(index: number): void {
-    console.log(this.doors[index]); //testausta varten
-    if (this.doors[index].status === 'closed') {
-      // klikatun luukun statukseksi vaihtuu open
-      console.log('luukku avataan');
-      this.doors[index].status = 'open';
-      this.localStorageService.saveDoors(this.doors);
-    } else {
-      console.log('avataan lähikuva');
-      this.openModal();
-    }
-  }
-*/
 
   // luukun avaaminen
   openDoor(door: Door): void {
@@ -127,11 +104,28 @@ export class CalendarComponent implements OnInit {
       this.openModal();
     }
   }
+
   // taulukon sekoitus
   shuffleArray(anArray: any[]): any[] {
     return anArray
       .map((a) => [Math.random(), a])
       .sort((a, b) => a[0] - b[0])
       .map((a) => a[1]);
+  }
+
+  // modaalin luominen
+  openModal() {
+    const config = new OverlayConfig({
+      positionStrategy: this.overlay
+        .position()
+        .global()
+        .centerVertically()
+        .centerHorizontally(),
+      width: '60%',
+      hasBackdrop: true,
+    });
+    const overlayRef = this.overlay.create(config);
+    overlayRef.attach(this.portal);
+    overlayRef.backdropClick().subscribe(() => overlayRef.detach());
   }
 }

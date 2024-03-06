@@ -6,4 +6,8 @@ export interface Door {
   image: string;
   title: string;
   year: string;
+  collection?: string;
+  organization: string;
+  authorName: string;
+  authorRole: string;
 }

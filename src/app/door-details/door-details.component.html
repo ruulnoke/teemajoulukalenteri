@@ -1,4 +1,8 @@
-<div class="details" *ngIf="door">
+<div class="details-container" *ngIf="door">
   <img src="{{door.image}}" alt="calendar picture" />
-  <p>{{door.title}}. {{door.year}}.</p>
+  <p class="details"><span class="title">{{door.title | titlecase}}</span>. <span
+      *ngIf="door.year, else elseBlock">{{door.year}}</span><ng-template #elseBlock>Ajoittamaton</ng-template>.
+    <span *ngIf="door.authorName"> {{door.authorRole | titlecase}}: {{door.authorName}}. </span>
+    <span *ngIf="door.collection"> {{door.collection}}, </span>{{door.organization}}.
+  </p>
 </div>

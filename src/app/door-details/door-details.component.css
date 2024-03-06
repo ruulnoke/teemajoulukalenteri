@@ -1,7 +1,18 @@
-.details {
+.details-container {
+  width: auto;
   background-color: rgb(255, 195, 127);
 }
 
+details {
+  margin: auto;
+}
+
+.title {
+  font-style: italic;
+}
+
 img {
-  width: 50%;
+  display: block;
+  margin: auto;
+  max-width: 70%;
 }
