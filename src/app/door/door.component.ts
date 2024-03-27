@@ -1,10 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-door',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, MatCardModule],
   templateUrl: './door.component.html',
   styleUrl: './door.component.css',
 })

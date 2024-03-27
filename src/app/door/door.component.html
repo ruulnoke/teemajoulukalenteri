@@ -1,3 +1,8 @@
-<button [ngClass]="{'closedDoor': status === 'closed', 'openDoor': status === 'open'}"><img src="{{image}}"
-                alt="calendar picture" class="doorPicture" /><span class="doorNumber">{{number}}</span>
-</button>
+<!--luukku-->
+
+<mat-card class="custom" [ngClass]="{'closedDoor': status === 'closed', 'openDoor': status === 'open'}">
+
+      <img src="{{image}}" alt="calendar picture" class="doorPicture" />
+      <span class="doorNumber">{{number}}</span>
+
+</mat-card>

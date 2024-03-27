@@ -1,4 +1,4 @@
-// kalenteriluukun interface
+// kalenteriluukun rajapinta
 
 export interface Door {
   status: 'open' | 'closed';
@@ -10,4 +10,7 @@ export interface Door {
   organization: string;
   authorName: string;
   authorRole: string;
+  copyright: string;
+  copyrightLink: string;
+  finnaLink: string;
 }

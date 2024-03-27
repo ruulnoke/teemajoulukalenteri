@@ -32,7 +32,7 @@ import { Door } from '../door';
   styleUrl: './calendar.component.css',
 })
 export class CalendarComponent implements OnInit {
-  @ViewChild(CdkPortal) portal!: CdkPortal; // EXAMPLE 2
+  @ViewChild(CdkPortal) portal!: CdkPortal; // jotta modaali voi näyttää DoorDetails-komponentin templaatin
 
   selectedDoor?: Door;
   doors: Door[] = [];
@@ -45,9 +45,11 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('haetaan storagesta'); // testausta varten
+    // tuodaan kalenteri selaimen muistista (jos on) -> mahdollistaa luukkujen avaamisen eri hetkinä
     this.doors = this.doorStorageService.getDoors();
   }
 
+  // kuvien ja kuvatietojen haku sekä sijoitus
   getPicture(searchTerm: string): void {
     // tilataan (subscribe) observable -> otetaan vastaan observablen välittämä tieto
     this.pictureService
@@ -77,6 +79,9 @@ export class CalendarComponent implements OnInit {
               authorRole: record.nonPresenterAuthors[0]
                 ? record.nonPresenterAuthors[0].role
                 : '',
+              copyright: record.imageRights ? record.imageRights.copyright : '',
+              copyrightLink: record.imageRights ? record.imageRights.link : '',
+              finnaLink: `https://www.finna.fi/Record/${record.id}`,
             } as Door);
           }
           // sekoitetaan luukut
@@ -96,16 +101,17 @@ export class CalendarComponent implements OnInit {
     console.log(this.selectedDoor); //testausta varten
     if (door.status === 'closed') {
       // klikatun luukun statukseksi vaihtuu open
-      console.log('luukku avataan');
       door.status = 'open';
+      // tallennetaan päivitetty taulukko muistiin
       this.doorStorageService.saveDoors(this.doors);
     } else {
-      console.log('avataan lähikuva');
+      // avataan modaali (klikatun luukun kuva sekä tiedot)
       this.openModal();
     }
   }
 
   // taulukon sekoitus
+  // Zoiab Khan (https://zoaibkhan.com/blog/how-to-create-a-card-memory-game-in-angular/)
   shuffleArray(anArray: any[]): any[] {
     return anArray
       .map((a) => [Math.random(), a])
@@ -114,7 +120,8 @@ export class CalendarComponent implements OnInit {
   }
 
   // modaalin luominen
-  openModal() {
+  // Brian Teese (https://www.youtube.com/watch?v=S7d2zvbFKhs)
+  openModal(): void {
     const config = new OverlayConfig({
       positionStrategy: this.overlay
         .position()
