@@ -5,12 +5,12 @@ interface Building {
   translated: string;
 }
 
-interface nonPresenterAuthors {
+interface NonPresenterAuthors {
   name: string;
   role: string;
 }
 
-interface imageRights {
+interface ImageRights {
   copyright: string;
   link: string;
 }
@@ -18,9 +18,9 @@ interface imageRights {
 interface Record {
   buildings: Building[];
   id: string;
-  imageRights: imageRights;
+  imageRights: ImageRights;
   images: string[];
-  nonPresenterAuthors: nonPresenterAuthors[];
+  nonPresenterAuthors: NonPresenterAuthors[];
   title: string;
   urls: string;
   year: string;

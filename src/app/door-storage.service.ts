@@ -1,3 +1,4 @@
+// varastopalvelu
 // kalenterin luukkuja säilytetään selaimen muistissa
 
 import { Injectable } from '@angular/core';
@@ -10,6 +11,7 @@ export class DoorStorageService {
   constructor() {}
 
   // tallennetaan doors-taulukko selaimen muistiin
+  // tallennetaan avain-arvo-parina, tiedot merkkijonomuodossa
   public saveDoors(doors: Door[]) {
     localStorage.setItem('doors', JSON.stringify(doors));
   }

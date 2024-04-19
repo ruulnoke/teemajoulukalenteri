@@ -1,13 +1,20 @@
-<!--haku-->
-<app-search (searchEventEmitter)="getPicture($event)"></app-search>
+<div>
+  <!--haku-->
+  <!--tapahtumasidos: kuunnellaan alikomponentin (search) tapahtumia
+      -> kutsutaan getPictures-metodia, parametrina emitterin välittämä arvo-->
+  <app-search (searchEventEmitter)="getPictures($event)"></app-search>
+  <p class="errorMessage">{{this.error}}</p>
 
-<!--modaali-->
-<ng-template cdkPortal>
-  <app-door-details [door]="selectedDoor"></app-door-details>
-</ng-template>
+  <!--modaali-->
+  <ng-template cdkPortal>
+    <app-door-details [door]="selectedDoor"></app-door-details>
+  </ng-template>
 
-<!--luukut-->
-<div class="calendar-grid">
-  <app-door *ngFor="let door of doors" [number]="door.number" [image]="door.image" [status]="door.status"
-    [class.selected]="door === selectedDoor" (click)="openDoor(door)"></app-door>
+  <!--luukut-->
+  <div class="calendar-grid">
+    <!--doors-taulukon pohjalta luodaan joukko door-komponentteja-->
+    <!--tapahtumasidos (event binding): Angular kuuntelee luukkujen klikkauksia -> kutsuu openDoor-metodia-->
+    <app-door *ngFor="let door of doors" [number]="door.number" [image]="door.image" [status]="door.status"
+      (click)="openDoor(door)"></app-door>
+  </div>
 </div>

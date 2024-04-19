@@ -21,10 +21,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class SearchComponent {
   constructor() {}
 
+  // output-dekoraattori: alikomponentti pystyy lähettämään tietoa ylikomponentille
+  // luodaan uusi event emitter
   @Output() searchEventEmitter = new EventEmitter<string>();
 
   submitSearch(searchValue: string) {
-    console.log('haku aloitettu'); // testausta varten
+    // lähetetään tapahtuma
     this.searchEventEmitter.emit(searchValue);
   }
 }

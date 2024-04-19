@@ -1,7 +1,12 @@
-<!--Hakukenttä-->
+<!--Haku-->
 
-<p>Hae kalenteriin haluamasi teema. Kokeili esimerkiksi sanoja 'joulupukki', 'punainen', '1890' tai 'jyväskylä'.</p>
-<label for="site-search">Hae teemaa</label>
-<input type="search" id="search" #searchTerm />
+<p class="searchInstructions">Hae kalenteriin haluamasi teema. Kokeile esimerkiksi sanoja 'kissa' tai 'jyväskylä'.</p>
 
-<button (click)="submitSearch(searchTerm.value)">Hae</button>
+<form class="searchField">
+  <mat-form-field subscriptSizing="dynamic">
+    <mat-label>Hakusana</mat-label>
+    <input matInput type="search" id="search" #searchTerm />
+  </mat-form-field>
+  <!--tapahtumasidos: painikkeen klikkaus kutsuu submitSearch-metodia, jonka parametriksi syötetty arvo-->
+  <button mat-raised-button (click)="submitSearch(searchTerm.value)">Hae</button>
+</form>

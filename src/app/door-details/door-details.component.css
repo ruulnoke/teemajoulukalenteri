@@ -1,15 +1,17 @@
+/* modaalisisällön tyylit */
+
 .modal-card {
-  width: 600px;
   background-color: bisque;
   text-align: center;
 }
 
-.title {
-  font-style: italic;
+.modal-card img {
+  display: block;
+  margin: 2rem auto auto auto;
+  max-width: 70%;
+  max-height: 400px;
 }
 
-img {
-  display: block;
-  margin: 2rem auto 2rem auto;
-  max-width: 70%;
+.imgTitle {
+  font-style: italic;
 }

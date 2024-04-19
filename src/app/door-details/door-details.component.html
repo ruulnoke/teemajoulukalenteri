@@ -4,19 +4,26 @@
   <img mat-card-image src="{{door.image}}" alt="kalenteriluukun kuva">
   <mat-card-content>
     <p class="details">
-      <span class="title">{{door.title | titlecase}}</span>.
+
+      <span class="imgTitle">{{door.title | titlecase}}</span>.
+
       <span *ngIf="door.year, else elseYear">{{door.year}}</span>
+      <!--jos *ngIf on false, näytetään tämä-->
       <ng-template #elseYear>Ajoittamaton</ng-template>.
+
       <span *ngIf="door.authorName">
         <span *ngIf="door.authorRole, else elseRole">{{door.authorRole | titlecase}}: </span>
         <ng-template #elseRole>Tekijä: </ng-template>
         {{door.authorName}}.
       </span>
+
       <span *ngIf="door.collection"> {{door.collection}}, </span>
       {{door.organization}}.
+
       <span *ngIf="door.copyright, else elseCopyright">(<a href="{{door.copyrightLink}}">{{door.copyright}}</a>, <a
           href="{{door.finnaLink}}">Finna</a>)</span>
       <ng-template #elseCopyright><a href="{{door.finnaLink}}">(Kuvaoikeudet näkyvät Finnassa)</a></ng-template>
+
     </p>
   </mat-card-content>
 </mat-card>

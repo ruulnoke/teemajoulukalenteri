@@ -1,8 +1,11 @@
 <!--luukku-->
 
-<mat-card class="custom" [ngClass]="{'closedDoor': status === 'closed', 'openDoor': status === 'open'}">
+<!--suljettu luukku-->
+<mat-card *ngIf="status === 'closed'" class="closedDoor">
+      <span>{{number}}</span>
+</mat-card>
 
-      <img src="{{image}}" alt="calendar picture" class="doorPicture" />
-      <span class="doorNumber">{{number}}</span>
-
+<!--avoin luukku-->
+<mat-card *ngIf="status === 'open'" class="openDoor">
+      <img src="{{image}}" alt="luukun kuva" />
 </mat-card>

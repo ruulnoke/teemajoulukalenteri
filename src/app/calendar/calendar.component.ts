@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { NgOptimizedImage } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { OverlayModule, Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { CdkPortal, PortalModule } from '@angular/cdk/portal';
@@ -19,7 +19,6 @@ import { Door } from '../door';
   selector: 'app-calendar',
   standalone: true,
   imports: [
-    NgOptimizedImage,
     NgFor,
     MatCardModule,
     DoorComponent,
@@ -36,30 +35,34 @@ export class CalendarComponent implements OnInit {
 
   selectedDoor?: Door;
   doors: Door[] = [];
+  error: string = '';
 
   constructor(
     private pictureService: PictureService,
     private doorStorageService: DoorStorageService,
-    private overlay: Overlay
+    private overlay: Overlay // palvelu Angularin Component Dev Kitistä
   ) {}
 
   ngOnInit(): void {
-    console.log('haetaan storagesta'); // testausta varten
     // tuodaan kalenteri selaimen muistista (jos on) -> mahdollistaa luukkujen avaamisen eri hetkinä
     this.doors = this.doorStorageService.getDoors();
   }
 
   // kuvien ja kuvatietojen haku sekä sijoitus
-  getPicture(searchTerm: string): void {
+  getPictures(searchTerm: string): void {
+    this.error = ''; // poistetaan mahdollinen error-viesti
+    // kutsutaan PictureServicen getPictures-metodia, jonka parametriksi annetaan hakukenttään syötetty sana
     // tilataan (subscribe) observable -> otetaan vastaan observablen välittämä tieto
-    this.pictureService
-      .getPicture(searchTerm)
-      .subscribe((response: Response) => {
+    this.pictureService.getPictures(searchTerm).subscribe({
+      // Jos tilattu haku onnistuu, tehdään next eli käsitellään observablen välittämää tietoa
+      next: (response: Response) => {
+        console.log(response); // testausta varten
         if (response.resultCount >= 24) {
-          console.log(response); // testausta varten
           // alustetaan muuttujat
           let number = 0;
           this.doors = [];
+          // sijoitetaan tiedot luukkuihin
+          // (osa tiedoista saattaa puuttua, siksi monta ternary-operaattoria)
           // sijoitetaan luukut doors-taulukkoon
           for (let record of response.records) {
             number = number + 1;
@@ -70,9 +73,9 @@ export class CalendarComponent implements OnInit {
               title: record.title,
               year: record.year,
               organization: record.buildings[0].translated,
-              collection: record.buildings[1]
-                ? record.buildings[1].translated
-                : '',
+              collection: record.buildings[1] // löytyykö tätä
+                ? record.buildings[1].translated // jos löytyy, tästä arvo
+                : '', // jos ei, arvoksi tyhjä merkkijono
               authorName: record.nonPresenterAuthors[0]
                 ? record.nonPresenterAuthors[0].name
                 : '',
@@ -86,26 +89,30 @@ export class CalendarComponent implements OnInit {
           }
           // sekoitetaan luukut
           this.doors = this.shuffleArray(this.doors);
-          console.log('sijoitetaan kalenteriin'); // testausta varten
           // tallennetaan selaimen muistiin
           this.doorStorageService.saveDoors(this.doors);
         } else {
-          console.log('ei tarpeeksi tuloksia');
+          // jos tuloksia liian vähän, virheilmoitus
+          this.error = 'Tuloksia liian vähän. Kokeile toista sanaa.';
         }
-      });
+      },
+      // jos subscribe epäonnistuu, tehdään error
+      error: (error) => {
+        this.error = `Haussa tapahtui virhe: ${error.message}`;
+      },
+    });
   }
 
-  // luukun avaaminen
+  // luukun / modaalin avaaminen
   openDoor(door: Door): void {
     this.selectedDoor = door;
-    console.log(this.selectedDoor); //testausta varten
     if (door.status === 'closed') {
       // klikatun luukun statukseksi vaihtuu open
       door.status = 'open';
       // tallennetaan päivitetty taulukko muistiin
       this.doorStorageService.saveDoors(this.doors);
     } else {
-      // avataan modaali (klikatun luukun kuva sekä tiedot)
+      // jos luukku on jo avattu, avataan modaali (näyttää luukun kuvan sekä tiedot)
       this.openModal();
     }
   }
@@ -122,17 +129,21 @@ export class CalendarComponent implements OnInit {
   // modaalin luominen
   // Brian Teese (https://www.youtube.com/watch?v=S7d2zvbFKhs)
   openModal(): void {
+    // määritykset sijainnille, koolle ja backdropille
     const config = new OverlayConfig({
       positionStrategy: this.overlay
         .position()
         .global()
         .centerVertically()
         .centerHorizontally(),
-      width: '60%',
+      width: '500px',
       hasBackdrop: true,
     });
+    // luodaan modaali config-määritysten pohjalta
     const overlayRef = this.overlay.create(config);
+    // modaali kiinnitetään (avataan)
     overlayRef.attach(this.portal);
+    // klikkaus modaalin ulkopuolelle irrottaa (sulkee) modaalin
     overlayRef.backdropClick().subscribe(() => overlayRef.detach());
   }
 }

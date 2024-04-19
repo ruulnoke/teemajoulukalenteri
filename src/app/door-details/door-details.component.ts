@@ -12,5 +12,6 @@ import { Door } from '../door';
   styleUrl: './door-details.component.css',
 })
 export class DoorDetailsComponent {
-  @Input() door?: Door; // door-olion tiedot tulevat CalendarComponentilta
+  // door-olion tiedot saadaan ylikomponentilta (CalendarComponent)
+  @Input() door?: Door;
 }

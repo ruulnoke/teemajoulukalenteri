@@ -1,6 +1,14 @@
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-content: center;
+  align-content: center;
   gap: 22px;
   padding: 2rem;
+}
+
+.errorMessage {
+  font-size: medium;
+  text-align: center;
+  font-style: italic;
 }
