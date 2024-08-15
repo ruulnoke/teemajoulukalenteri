@@ -1,8 +1,8 @@
 # Joulukalenteri
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
+Lopputyö JAMKin Frontend-kurssille. Teemajoulukalenteri, johon haetaan kuvat Finnasta.
 
-Modaali: Brian Teese (`https://www.youtube.com/watch?v=S7d2zvbFKhs`)
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
 
 ## Development server
 
