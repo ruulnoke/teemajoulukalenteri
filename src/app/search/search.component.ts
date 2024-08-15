@@ -22,7 +22,7 @@ export class SearchComponent {
   constructor() {}
 
   // output-dekoraattori: alikomponentti pystyy lähettämään tietoa ylikomponentille
-  // luodaan uusi event emitter
+  // luodaan uusi event emitter (tapahtumalähettäjä)
   @Output() searchEventEmitter = new EventEmitter<string>();
 
   submitSearch(searchValue: string) {

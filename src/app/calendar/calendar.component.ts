@@ -54,9 +54,8 @@ export class CalendarComponent implements OnInit {
     // kutsutaan PictureServicen getPictures-metodia, jonka parametriksi annetaan hakukenttään syötetty sana
     // tilataan (subscribe) observable -> otetaan vastaan observablen välittämä tieto
     this.pictureService.getPictures(searchTerm).subscribe({
-      // Jos tilattu haku onnistuu, tehdään next eli käsitellään observablen välittämää tietoa
+      // Jos subscribe onnistuu, tehdään next eli käsitellään observablen välittämää tietoa
       next: (response: Response) => {
-        console.log(response); // testausta varten
         if (response.resultCount >= 24) {
           // alustetaan muuttujat
           let number = 0;
@@ -67,6 +66,7 @@ export class CalendarComponent implements OnInit {
           for (let record of response.records) {
             number = number + 1;
             this.doors.push({
+              // rakennetaan olio
               status: 'closed',
               number: number.toString(),
               image: `https://www.finna.fi${record.images[0]}`,
@@ -85,7 +85,7 @@ export class CalendarComponent implements OnInit {
               copyright: record.imageRights ? record.imageRights.copyright : '',
               copyrightLink: record.imageRights ? record.imageRights.link : '',
               finnaLink: `https://www.finna.fi/Record/${record.id}`,
-            } as Door);
+            } as Door); // rakennettu olio ilmoitetaan Door-tyyppiseksi
           }
           // sekoitetaan luukut
           this.doors = this.shuffleArray(this.doors);

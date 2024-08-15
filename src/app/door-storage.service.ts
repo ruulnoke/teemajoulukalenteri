@@ -17,8 +17,8 @@ export class DoorStorageService {
   }
 
   // haetaan doors-taulukko selaimen muistista
+  // jos taulukkoa ei ole, palautetaan tyhjä olio
   public getDoors() {
-    // jos taulukkoa ei ole, palautetaan tyhjä olio
     return JSON.parse(localStorage.getItem('doors') || '{}');
   }
 }
